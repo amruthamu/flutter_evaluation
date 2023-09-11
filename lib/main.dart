@@ -4,11 +4,11 @@ import 'anim_bloc/anim_bloc.dart';
 import 'ui/hexagon_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MyApplication());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApplication extends StatelessWidget {
+  const MyApplication({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

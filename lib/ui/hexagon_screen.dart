@@ -15,13 +15,16 @@ class HexagonScreen extends StatefulWidget {
 class _HexagonScreen extends State<HexagonScreen> with SingleTickerProviderStateMixin {
   late AnimationController animationController;
   @override
-  initState() {
+  @override
+  void initState() {
     super.initState();
-    BlocProvider.of<AnimBloc>(context).add(AnimationBeginEvent());
     animationController = AnimationController(
-      duration: const Duration(seconds: 6),vsync: this,
-    );
+      duration: const Duration(seconds: 2),vsync: this,);
+
+    final animBloc = BlocProvider.of<AnimBloc>(context);
+    animBloc.add(AnimationBeginEvent());
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +51,7 @@ class _HexagonScreen extends State<HexagonScreen> with SingleTickerProviderState
                             "Windows", "Windows is a widely used operating system developed by Microsoft. It is known for its user-friendly interface and compatibility with a wide range of software applications. There are different versions of Windows, with Windows 10 and Windows 11 being the latest as of my knowledge cutoff date in September 2021.",
                             [Colors.orange,Colors.orange,Colors.orange,Colors.orange,Colors.orange,Colors.orange])),
                     FadeTransition(
-                        opacity: Tween(begin: -40.0, end: 200.0)
+                        opacity: Tween(begin: -39.0, end: 202.0)
                             .animate(animationController),
                         child: hexagonCreate(context,
                         "Linux", "Linux is an open-source operating system kernel that serves as the foundation for various Linux distributions (distros). Linux is known for its security, stability, and flexibility. Popular Linux distributions include Ubuntu, Debian, and Fedora.",

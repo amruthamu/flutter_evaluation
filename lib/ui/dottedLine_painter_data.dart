@@ -6,16 +6,16 @@ class PainterData extends CustomPainter {
   final Offset secondaryOffset;
   final Color color;
   final double strokeWidth;
-  final double dashLength;
-  final double dashSpace;
+  final double dotLength;
+  final double dotSpace;
 
   const PainterData({
     required this.primaryOffset,
     required this.secondaryOffset,
     this.color = Colors.black,
     this.strokeWidth = 2.0,
-    this.dashLength = 3.0,
-    this.dashSpace = 2.0,
+    this.dotLength = 3.0,
+    this.dotSpace = 2.0,
   });
 
   @override
@@ -24,8 +24,8 @@ class PainterData extends CustomPainter {
       ..color = color
       ..strokeWidth = strokeWidth;
     drawDottedLine(
-      dashLength,
-      dashSpace,
+      dotLength,
+      dotSpace,
       primaryOffset,
       secondaryOffset,
       canvas,
@@ -39,7 +39,7 @@ class PainterData extends CustomPainter {
   }
 
   void drawDottedLine(
-      double dashLength,
+      double dotLength,
       double dashSpace,
       Offset primaryOffset,
       Offset secondaryOffset,
@@ -59,17 +59,17 @@ class PainterData extends CustomPainter {
       directionVector.dy / directionVectorLength,
     );
 
-    var numDashes = directionVectorLength / (dashLength + dashSpace);
+    var numDashes = directionVectorLength / (dotLength + dashSpace);
     var delta = Offset(
-      normalizedVector.dx * (dashLength + dashSpace),
-      normalizedVector.dy * (dashLength + dashSpace),
+      normalizedVector.dx * (dotLength + dashSpace),
+      normalizedVector.dy * (dotLength + dashSpace),
     );
 
     var currentPoint = primaryOffset;
     for (var i = 0; i < numDashes; i++) {
       var endPoint = Offset(
-        currentPoint.dx + normalizedVector.dx * dashLength,
-        currentPoint.dy + normalizedVector.dy * dashLength,
+        currentPoint.dx + normalizedVector.dx * dotLength,
+        currentPoint.dy + normalizedVector.dy * dotLength,
       );
       canvas.drawLine(currentPoint, endPoint, paint);
       currentPoint = Offset(
