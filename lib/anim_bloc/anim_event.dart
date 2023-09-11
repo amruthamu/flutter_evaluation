@@ -1,3 +1,3 @@
-abstract class AnimationEvents{}
+class AnimationEvent {}
 
-class StartAnimationEvent extends AnimationEvents{}
+class AnimationBeginEvent extends AnimationEvent {}

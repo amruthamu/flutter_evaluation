@@ -1,43 +1,37 @@
-import 'package:hexagon_project/ui/detailed_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../anim_bloc/anim_bloc.dart';
 import '../anim_bloc/anim_event.dart';
 import '../anim_bloc/anim_state.dart';
-import '../constants/constants.dart';
-import '../custom_widget/custom_painter.dart';
-import 'hexagon.dart';
+import 'hexagon_create.dart';
+import 'dottedLine_painter_data.dart';
 
 class HexagonScreen extends StatefulWidget {
-  const HexagonScreen({super.key, required this.title});
-  final String title;
+  const HexagonScreen({super.key});
   @override
   State<HexagonScreen> createState() => _HexagonScreen();
 }
 
 class _HexagonScreen extends State<HexagonScreen> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
+  late AnimationController animationController;
   @override
   initState() {
     super.initState();
-    BlocProvider.of<CountBloc>(context).add(StartAnimationEvent());
-    _controller = AnimationController(
-      duration: const Duration(seconds: 5),
-      vsync: this,
+    BlocProvider.of<AnimBloc>(context).add(AnimationBeginEvent());
+    animationController = AnimationController(
+      duration: const Duration(seconds: 6),vsync: this,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CountBloc, AnimationStates>(
+    return BlocListener<AnimBloc, AnimationState>(
       listener: (context, state) {
-        if (state.isSuccess) {
-          _controller.forward();
-        }
+        animationController.forward();
       },
       child: Scaffold(
           appBar: AppBar(
-            title: Center(child: Text(widget.title)),
+            title: const Center(child: Text("Hexagon Application" ,style: TextStyle(fontSize:35))),
           ),
           body: Center(
             child: Column(
@@ -49,19 +43,22 @@ class _HexagonScreen extends State<HexagonScreen> with SingleTickerProviderState
                   children: [
                     FadeTransition(
                         opacity: Tween(begin: -10.0, end: 100.0)
-                            .animate(_controller),
-                        child: _buildHexagon(
-                            Constants.title, Constants.title_des)),
+                            .animate(animationController),
+                        child: hexagonCreate(context,
+                            "Windows", "Windows is a widely used operating system developed by Microsoft. It is known for its user-friendly interface and compatibility with a wide range of software applications. There are different versions of Windows, with Windows 10 and Windows 11 being the latest as of my knowledge cutoff date in September 2021.",
+                            [Colors.orange,Colors.orange,Colors.orange,Colors.orange,Colors.orange,Colors.orange])),
                     FadeTransition(
                         opacity: Tween(begin: -40.0, end: 200.0)
-                            .animate(_controller),
-                        child: _buildHexagon(
-                            Constants.title1, Constants.title1_des)),
+                            .animate(animationController),
+                        child: hexagonCreate(context,
+                        "Linux", "Linux is an open-source operating system kernel that serves as the foundation for various Linux distributions (distros). Linux is known for its security, stability, and flexibility. Popular Linux distributions include Ubuntu, Debian, and Fedora.",
+                            [Colors.blue,Colors.blue,Colors.blue,Colors.blue,Colors.blue,Colors.blue])),
                     FadeTransition(
-                        opacity: Tween(begin: -100.0, end: 300.0)
-                            .animate(_controller),
-                        child: _buildHexagon(
-                            Constants.title2, Constants.title2_des)),
+                        opacity: Tween(begin: -99.0, end: 301.0)
+                            .animate(animationController),
+                        child: hexagonCreate(context,
+                           "macOs", "macOS is the operating system developed by Apple Inc. for their Macintosh computers. It is known for its elegant and user-friendly interface, as well as tight integration with Apple's hardware and software ecosystem.",
+                            [Colors.orange,Colors.orange,Colors.orange,Colors.orange,Colors.orange,Colors.orange])),
                   ],
                 ),
                 Padding(
@@ -71,37 +68,39 @@ class _HexagonScreen extends State<HexagonScreen> with SingleTickerProviderState
                     children: [
                       FadeTransition(
                         opacity: Tween(begin: -150.0, end: 400.0)
-                            .animate(_controller),
+                            .animate(animationController),
                         child: CustomPaint(
-                          painter: const LinePainter(
-                            firstOffset: Offset(33, -30),
-                            secondOffset: Offset(70, 20),
+                          painter: const PainterData(
+                            primaryOffset: Offset(32, -29),
+                            secondaryOffset: Offset(69, 19),
                           ),
                           child: CustomPaint(
-                            painter: const LinePainter(
-                              firstOffset: Offset(93, -30),
-                              secondOffset: Offset(60, 20),
+                            painter: const PainterData(
+                              primaryOffset: Offset(94, -29),
+                              secondaryOffset: Offset(59, 19),
                             ),
-                            child: _buildHexagon(
-                                Constants.title3, Constants.title3_des),
+                            child: hexagonCreate(context,
+                                "Ubuntu", "Ubuntu is a popular Linux distribution based on Debian. It is known for its ease of use and comes with a wide range of pre-installed software. Ubuntu is widely used both for desktop and server environments.",
+                                [Colors.blue,Colors.blue,Colors.blue,Colors.blue,Colors.blue,Colors.blue]),
                           ),
                         ),
                       ),
                       FadeTransition(
-                        opacity: Tween(begin: -250.0, end: 400.0)
-                            .animate(_controller),
+                        opacity: Tween(begin: -240.0, end: 400.0)
+                            .animate(animationController),
                         child: CustomPaint(
-                          painter: const LinePainter(
-                            firstOffset: Offset(33, -30),
-                            secondOffset: Offset(70, 20),
+                          painter: const PainterData(
+                            primaryOffset: Offset(33, -30),
+                            secondaryOffset: Offset(70, 20),
                           ),
                           child: CustomPaint(
-                            painter: const LinePainter(
-                              firstOffset: Offset(93, -30),
-                              secondOffset: Offset(60, 20),
+                            painter: const PainterData(
+                              primaryOffset: Offset(93, -30),
+                              secondaryOffset: Offset(60, 20),
                             ),
-                            child: _buildHexagon(
-                                Constants.title4, Constants.title4_des),
+                            child: hexagonCreate(context,
+                                "Debian"," Debian is a stable and highly customizable Linux distribution. It is known for its commitment to free and open-source software principles and has a large community of developers." ,
+                                [Colors.blue,Colors.blue,Colors.blue,Colors.blue,Colors.blue,Colors.blue]),
                           ),
                         ),
                       ),
@@ -115,26 +114,29 @@ class _HexagonScreen extends State<HexagonScreen> with SingleTickerProviderState
                     children: [
                       FadeTransition(
                         opacity: Tween(begin: -400.0, end: 600.0)
-                            .animate(_controller),
+                            .animate(animationController),
                         child: CustomPaint(
-                          painter: const LinePainter(
-                            firstOffset: Offset(60, -30),
-                            secondOffset: Offset(60, 20),
+                          painter: const PainterData(
+                            primaryOffset: Offset(60, -30),
+                            secondaryOffset: Offset(60, 20),
                           ),
-                          child: _buildHexagon(
-                              Constants.title5, Constants.title5_des),
+                          child: hexagonCreate(context,
+                              "Fedora", "Fedora is another popular Linux distribution that focuses on delivering the latest open-source technologies. It is often used by developers and enthusiasts who want access to cutting-edge software.",
+                              [Colors.purple,Colors.purple,Colors.purple,Colors.purple,Colors.purple,Colors.purple]),
                         ),
                       ),
                       FadeTransition(
                         opacity: Tween(begin: -600.0, end: 700.0)
-                            .animate(_controller),
+
+                            .animate(animationController),
                         child: CustomPaint(
-                          painter: const LinePainter(
-                            firstOffset: Offset(60, -30),
-                            secondOffset: Offset(60, 20),
+                          painter: const PainterData(
+                            primaryOffset: Offset(60, -30),
+                            secondaryOffset: Offset(60, 20),
                           ),
-                          child: _buildHexagon(
-                              Constants.title6, Constants.title6_des),
+                          child: hexagonCreate(context,
+                              "openSUSE", "openSUSE is a Linux distribution known for its stability and robustness. It is available in two main flavors: openSUSE Leap (stable) and openSUSE Tumbleweed (rolling release).",
+                              [Colors.purple,Colors.purple,Colors.purple,Colors.purple,Colors.purple,Colors.purple]),
                         ),
                       ),
                     ],
@@ -146,35 +148,9 @@ class _HexagonScreen extends State<HexagonScreen> with SingleTickerProviderState
     );
   }
 
-  Widget _buildHexagon(String title, String desc) {
-    var h = 95.0;
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SecondPage(
-              title: title,
-              description: desc,
-            ),
-          ),
-        );
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Hexagon(
-          sideLength: h,
-          color: Colors.white,
-          child: Center(
-            child: Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+
+
+
 
 
 }
