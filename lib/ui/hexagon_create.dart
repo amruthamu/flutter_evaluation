@@ -17,7 +17,7 @@ Widget hexagonCreate(BuildContext context, String title, String desc, List<Color
       );
     },
     child: Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(6.0),
       child: Hexagon(
         sideLength: 100,
         color: Colors.white,
